@@ -1,19 +1,13 @@
 name: Static analysis
 on:
   workflow_call:
-    inputs:
-      scan-path:
-        description: Caller repository path to scan
-        required: false
-        type: string
-        default: .
 permissions:
   contents: read
 jobs:
   semgrep:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           repository: ${{ github.repository }}
       - uses: semgrep/semgrep-action@713efdd345f3035192eaa63f56867b88e63e4e5d

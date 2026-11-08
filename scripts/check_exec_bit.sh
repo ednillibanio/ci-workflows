@@ -1,16 +1,7 @@
 #!/usr/bin/env bash
 
-# Origem do check-exec-bit (ednillibanio/platform-catalog#68, decisão D2). Nasceu como cópia de
-# al-rr/platform-modules scripts/ci/check_exec_bit.sh (commit f688c4f); as cópias que ainda existem
-# nos repos do al-rr são temporárias e saem quando cada repo adota este hook. Correção entra aqui
-# primeiro.
-# Diferenças em relação àquela cópia:
-# - REPO_ROOT vem de `git rev-parse --show-toplevel`, não do caminho do script, porque o
-#   pre-commit executa o script a partir do cache do hook;
-# - EXCEPTIONS_FILE fica no repo verificado: scripts/ci/exec_bit_exceptions.txt;
-# - caminhos de uso e exemplo trocados para scripts/check_exec_bit.sh;
-# - a lista de arquivos vem de `git ls-files -s -z`, separando modo e caminho pelo tab, e por
-#   isso caminho com espaço também é verificado (al-rr/platform-modules#293).
+# Adapted from a generic Git executable-bit validator. The root directory is
+# discovered with Git because pre-commit executes hooks from its own cache.
 
 # @file check_exec_bit.sh
 # @brief Fail when a shell script's git-tracked executable bit is wrong.
@@ -22,7 +13,7 @@
 #   ("Executable bit").
 #
 #   Scope: every tracked `*.sh`, plus tracked files with no "." in their name
-#   whose first line is a bash/sh shebang (e.g. packer/packerctl, modulesctl).
+#   whose first line is a bash/sh shebang (for example, extensionless command-line tools).
 #
 #   A file is a sourced-only LIBRARY (must be 100644) when any of these hold:
 #   - its name is vars.sh, functions.sh or lib.sh, or it lives in a lib/ dir
