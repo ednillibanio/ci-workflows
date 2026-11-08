@@ -1,0 +1,21 @@
+- id: sem-env
+  name: reject real environment files
+  description: Reject tracked .env files except .env.example and .env.prod.example.
+  language: fail
+  entry: Real .env files are not allowed; keep only .env.example or .env.prod.example.
+  files: (^|/)\.env(\..+)?$
+  exclude: (^|/)\.env(\.prod)?\.example$
+  types: []
+- id: check-exec-bit
+  name: check shell executable bits
+  description: Require executable mode and a shebang for entrypoints; libraries must not be executable.
+  language: script
+  entry: scripts/check_exec_bit.sh
+  pass_filenames: false
+  always_run: true
+- id: check-shdoc
+  name: check shell documentation headers
+  description: Require @file, @brief, @description, and @example in executable shell script headers.
+  language: script
+  entry: scripts/check_shdoc.sh
+  types: [shell]

@@ -1,0 +1,32 @@
+name: Test reusable workflows
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  backend:
+    uses: ./.github/workflows/backend.yml
+    with:
+      working-directory: tests/fixtures/backend
+  frontend:
+    uses: ./.github/workflows/frontend.yml
+    with:
+      working-directory: tests/fixtures/frontend
+  hygiene:
+    uses: ./.github/workflows/hygiene.yml
+    with:
+      pre-commit-config: .pre-commit-config.yaml
+  security:
+    uses: ./.github/workflows/security.yml
+  dependencies:
+    uses: ./.github/workflows/dependencies.yml
+  sbom-backend:
+    uses: ./.github/workflows/sbom-backend.yml
+    with:
+      working-directory: tests/fixtures/backend
+  sbom-frontend:
+    uses: ./.github/workflows/sbom-frontend.yml
+    with:
+      working-directory: tests/fixtures/frontend

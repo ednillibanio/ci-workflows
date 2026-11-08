@@ -1,0 +1,28 @@
+minimum_pre_commit_version: "3.2.0"
+repos:
+  - repo: local
+    hooks:
+      - id: sem-env
+        name: reject real environment files
+        language: fail
+        entry: Real .env files are not allowed; keep only .env.example or .env.prod.example
+        files: (^|/)\.env(\..+)?$
+        exclude: (^|/)\.env(\.prod)?\.example$
+        types: []
+      - id: check-exec-bit
+        name: check shell executable bits
+        language: script
+        entry: scripts/check_exec_bit.sh
+        pass_filenames: false
+        always_run: true
+      - id: check-shdoc
+        name: check shell documentation headers
+        language: script
+        entry: scripts/check_shdoc.sh
+        types: [shell]
+      - id: test-hooks
+        name: test reusable hooks
+        entry: ./tests/test_hooks.sh
+        language: system
+        pass_filenames: false
+        always_run: true

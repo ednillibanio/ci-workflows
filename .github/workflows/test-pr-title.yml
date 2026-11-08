@@ -1,0 +1,10 @@
+name: Test PR title caller
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize, edited]
+permissions:
+  pull-requests: read
+jobs:
+  title:
+    uses: ./.github/workflows/pr-title.yml

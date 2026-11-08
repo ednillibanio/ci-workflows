@@ -1,0 +1,25 @@
+name: Dependency scan
+on:
+  workflow_call:
+    inputs:
+      scan-path:
+        description: Caller repository path to scan
+        required: false
+        type: string
+        default: .
+permissions:
+  contents: read
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: ${{ github.repository }}
+      - uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1
+        with:
+          scan-type: fs
+          scan-ref: ${{ inputs.scan-path }}
+          scanners: vuln
+          format: table
+          exit-code: "0"

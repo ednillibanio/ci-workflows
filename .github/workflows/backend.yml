@@ -1,0 +1,30 @@
+name: Backend tests
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: Directory containing the Maven wrapper and pom.xml
+        required: false
+        type: string
+        default: backend
+      java-version:
+        description: Java version
+        required: false
+        type: string
+        default: "21"
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: ${{ github.repository }}
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
+        with:
+          distribution: temurin
+          java-version: ${{ inputs.java-version }}
+          cache: maven
+      - run: ./mvnw -B clean test
+        working-directory: ${{ inputs.working-directory }}
