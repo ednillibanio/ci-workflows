@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # @file test_hooks.sh
-# @brief Testa os hooks do .pre-commit-hooks.yaml em repos git descartáveis.
+# @brief Tests .pre-commit-hooks.yaml hooks in disposable Git repositories.
 # @description
 #   Copies this repository working tree (tracked and untracked files, including uncommitted changes) to a temporary repository with its own commit because `pre-commit try-repo` requires HEAD. For each case, creates another temporary repository, stages files without committing, and runs the hook with `pre-commit try-repo`. Checks expected pass/fail; pre-commit errors fail the test. No network is used.
 #
@@ -27,7 +27,7 @@ git -C "${SOURCE_REPO}" ls-files -z --cached --others --exclude-standard |
 git -C "${HOOKS_REPO}" init -q
 git -C "${HOOKS_REPO}" add -A
 git -C "${HOOKS_REPO}" -c user.name=test -c user.email=test@example.invalid \
-  commit -q -m "test: cópia da árvore de trabalho"
+  commit -q -m "test: working tree copy"
 
 # @description Cria um repo git vazio e imprime o caminho dele.
 # @arg $1 string Case name used in the directory name.

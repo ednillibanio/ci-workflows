@@ -9,7 +9,7 @@
 #   Git stores one permission bit per file (100755 or 100644). Scripts that
 #   are run directly must be 100755 so `./script` and `[[ -x ]]` callers
 #   work on a fresh clone; libraries that are only sourced must be 100644.
-#   See al-rr/platform-modules docs/standards/bash-script-standard.md
+#   See the shell script documentation standard.
 #   ("Executable bit").
 #
 #   Scope: every tracked `*.sh`, plus tracked files with no "." in their name
