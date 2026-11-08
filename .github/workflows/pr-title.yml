@@ -6,7 +6,15 @@ on:
         description: Comma-separated allowed Conventional Commit types
         required: false
         type: string
-        default: feat,fix,refactor,test,docs,ci,build,chore
+        default: |
+          feat
+          fix
+          refactor
+          test
+          docs
+          ci
+          build
+          chore
 permissions:
   pull-requests: read
 jobs:
