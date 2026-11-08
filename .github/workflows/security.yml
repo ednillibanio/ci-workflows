@@ -1,0 +1,26 @@
+name: Security scan
+on:
+  workflow_call:
+    inputs:
+      scan-path:
+        description: Path in the caller repository to scan
+        required: false
+        type: string
+        default: .
+permissions:
+  contents: read
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: ${{ github.repository }}
+      - uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1
+        with:
+          scan-type: fs
+          scan-ref: ${{ inputs.scan-path }}
+          format: table
+          exit-code: "0"
+          vuln-type: os,library
+          severity: CRITICAL,HIGH,MEDIUM,LOW

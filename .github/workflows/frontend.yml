@@ -1,0 +1,33 @@
+name: Frontend validation
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: Directory containing pnpm-lock.yaml
+        required: false
+        type: string
+        default: frontend
+      node-version:
+        description: Node.js version
+        required: false
+        type: string
+        default: "26"
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: ${{ github.repository }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: pnpm
+          cache-dependency-path: ${{ inputs.working-directory }}/pnpm-lock.yaml
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile
+        working-directory: ${{ inputs.working-directory }}
+      - run: pnpm build && pnpm lint && pnpm test
+        working-directory: ${{ inputs.working-directory }}

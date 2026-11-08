@@ -1,0 +1,21 @@
+name: Hygiene
+on:
+  workflow_call:
+    inputs:
+      pre-commit-config:
+        description: Path to the pre-commit configuration in the caller repository
+        required: false
+        type: string
+        default: .pre-commit-config.yaml
+permissions:
+  contents: read
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: ${{ github.repository }}
+      - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd
+        with:
+          extra_args: --all-files --config ${{ inputs.pre-commit-config }}
