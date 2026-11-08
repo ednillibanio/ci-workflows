@@ -18,6 +18,10 @@ jobs:
     uses: ./.github/workflows/hygiene.yml
     with:
       pre-commit-config: .pre-commit-config.yaml
+  secrets:
+    uses: ./.github/workflows/secrets.yml
+  sast:
+    uses: ./.github/workflows/sast.yml
   security:
     uses: ./.github/workflows/security.yml
   dependencies:
