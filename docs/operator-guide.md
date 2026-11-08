@@ -20,7 +20,7 @@ Run `pre-commit install` once per clone and `pre-commit run --all-files` to vali
 
 ## Call reusable workflows
 
-Use full commit SHAs when calling workflows, and pass only the inputs documented in each workflow's `workflow_call` declaration. Use `pull_request` callers without secrets. Each workflow checks out `github.repository`, which is the caller repository in the called workflow context. Restrict caller permissions to the minimum required. The files under `.github/workflows/test-callers.yml` are manually triggered test callers for this repository; run them after publishing a test branch.
+Use full commit SHAs when calling workflows, and pass only the inputs documented in each workflow's `workflow_call` declaration. For the initial workflow set, pin commit `d9e8db92a2a88f5a69460d9d635bc25adf37432e`. Use `pull_request` callers without secrets. Each workflow checks out `github.repository`, which is the caller repository in the called workflow context. Restrict caller permissions to the minimum required. `.github/workflows/test-callers.yml` exercises each reusable workflow on pull requests to `main` and can also be run with `workflow_dispatch`; the PR-title caller runs on its documented pull-request event types.
 
 Workflows cover hygiene, history-wide secret scanning, pull request titles, Maven tests, pnpm build/lint/test, Semgrep, Trivy dependency scanning and separate backend/frontend CycloneDX SBOM artifacts. Findings in SAST and dependency scans are informational initially; scanner execution errors should fail the job.
 
@@ -46,4 +46,4 @@ After review and required checks pass, version hooks with SemVer tags. Consumers
 - Scanner findings appear: inspect the report and track findings; distinguish them from scanner startup or infrastructure failures.
 - SBOM artifact is missing: inspect the Trivy step and confirm the corresponding backend/frontend path exists in the caller.
 
-This repository is in active development; no release tag or successful test-caller run is claimed until recorded in the stage evidence.
+The first tagged hook release is `v0.1.0`. GitHub-hosted test callers validate the reusable workflows in this repository; validation in a real sapl-next consumer PR remains for stage 03 of the personal app foundation.
