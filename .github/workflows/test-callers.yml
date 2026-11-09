@@ -22,6 +22,24 @@ jobs:
     uses: ./.github/workflows/secrets.yml
   sast:
     uses: ./.github/workflows/sast.yml
+    with:
+      config: .github/test-fixtures/sast/rules.yml
+      scan-path: .github/test-fixtures/sast
+  sast-execution-error:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+      - name: Install Semgrep
+        run: python -m pip install --disable-pip-version-check semgrep==1.184.0
+      - name: Confirm scanner configuration errors fail
+        run: |
+          if semgrep scan --config .github/test-fixtures/sast/invalid.yml .; then
+            echo "Semgrep unexpectedly accepted an invalid configuration." >&2
+            exit 1
+          fi
   security:
     uses: ./.github/workflows/security.yml
   dependencies:
