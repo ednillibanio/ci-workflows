@@ -1,0 +1,6 @@
+rules:
+  - id: test.eval-call
+    pattern: eval(...)
+    message: Test-only rule used to verify informational Semgrep findings.
+    languages: [python]
+    severity: WARNING
